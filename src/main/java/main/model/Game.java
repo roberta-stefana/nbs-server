@@ -15,9 +15,7 @@ public class Game implements Serializable {
     @Column
     private Date date;
     @Column
-    private int points1;
-    @Column
-    private int points2;
+    private Boolean live;
     @Column
     private int idTeam1;
     @Column
@@ -45,8 +43,8 @@ public class Game implements Serializable {
     @JoinColumn(name="idLiveGame", insertable = false, updatable = false)
     private LiveGame liveGame;
 
-    public Game(){}
 
+    public Game(){}
 
     public int getIdGame() {
         return idGame;
@@ -62,22 +60,6 @@ public class Game implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getPoints1() {
-        return points1;
-    }
-
-    public void setPoints1(int points1) {
-        this.points1 = points1;
-    }
-
-    public int getPoints2() {
-        return points2;
-    }
-
-    public void setPoints2(int points2) {
-        this.points2 = points2;
     }
 
     public int getIdTeam1() {
@@ -136,15 +118,20 @@ public class Game implements Serializable {
         this.liveGame = liveGame;
     }
 
+    public Boolean getLive() {
+        return live;
+    }
 
+    public void setLive(Boolean live) {
+        this.live = live;
+    }
 
     @Override
     public String toString() {
         return "Game{" +
                 "idGame=" + idGame +
                 ", date=" + date +
-                ", points1=" + points1 +
-                ", points2=" + points2 +
+                ", live=" + live +
                 ", idTeam1=" + idTeam1 +
                 ", idTeam2=" + idTeam2 +
                 ", idLiveGame=" + idLiveGame +

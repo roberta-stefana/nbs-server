@@ -3,13 +3,11 @@ package main;
 import main.model.ApplicationUser;
 import main.repository.*;
 import main.service.Service;
+import main.websocket.WebsocketServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
-import java.util.Properties;
 
 @Configuration
 public class AppConfig {
@@ -22,5 +20,27 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean(name="websocket")
+    public void startWebsocket() {
+        WebsocketServer server = new WebsocketServer(8081);
+        server.start();
+    }
+
+    /*
+    @Bean(name="websocket")
+    public WebsocketServer createWebsocketServer(){
+        return new WebsocketServer();
+    }
+
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+            }
+        };
+    }*/
 
 }
