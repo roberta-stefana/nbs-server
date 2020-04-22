@@ -1,9 +1,6 @@
 package main.controller;
 
-import main.model.ApplicationUser;
-import main.model.Player;
-import main.model.Stats;
-import main.model.StatsGameDTO;
+import main.model.*;
 import main.service.IService;
 import main.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +28,12 @@ public class StatsRestController {
         return newStats;
     }
 
+    @RequestMapping(value = "/game/{idGame}",method = RequestMethod.GET)
+    public List<Stats> findAllTeamStatsByGame( @PathVariable int idGame) {
+        List<Stats> stats = new ArrayList<>();
+        service.findAllGameStats(idGame).forEach(x -> stats.add(x));
+        return stats;
+    }
 
-
-    /*
-    @RequestMapping(value = "team/{teamId}", method = RequestMethod.GET)
-    public List<Player> getAllTeam(@PathVariable int teamId) {
-        List<Player> players = new ArrayList<>();
-        service.findPlayersByTeam(teamId).forEach(x -> players.add(x));
-        players.forEach(x-> System.out.println(x));
-        return players;
-    }*/
 
 }

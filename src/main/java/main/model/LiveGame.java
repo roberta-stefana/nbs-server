@@ -24,6 +24,9 @@ public class LiveGame implements Serializable {
     @Column
     private int points2;
 
+    @Column
+    private int activeUsers;
+
     public LiveGame(){
     }
 
@@ -67,6 +70,15 @@ public class LiveGame implements Serializable {
         this.points2 = points2;
     }
 
+    public int getActiveUsers() {
+        return activeUsers;
+    }
+
+    public void setActiveUsers(int activeUsers) {
+        this.activeUsers = activeUsers;
+    }
+
+
     @Override
     public String toString() {
         return "LiveGame{" +
@@ -75,6 +87,7 @@ public class LiveGame implements Serializable {
                 ", time='" + time + '\'' +
                 ", points1=" + points1 +
                 ", points2=" + points2 +
+                ", activeUsers=" + activeUsers +
                 '}';
     }
 }

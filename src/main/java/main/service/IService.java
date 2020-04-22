@@ -19,10 +19,24 @@ public interface IService {
     //Stats
     Stats saveStats(Stats stats);
     List<Stats> saveTeamStats(StatsGameDTO statsGameDTO);
+    List<Stats> findAllGameStats(int idGame);
+
+    //LiveGame
+    LiveGame saveLiveGame(LiveGame liveGame);
+
 
     //Game
     Game saveGame(Game game);
+    Game findGameByIdGame(int idGame);
+    List<Game> findAllGameByLive(Boolean live);
+    List<Game> findAllGame();
 
     //QuaterPoints
     QuaterPoints saveQuaterPoints(QuaterPoints quaterPoints);
+
+    //Comments
+    Comments saveComments(Comments comments);
+    List<Comments> findAllCommentsByIdGameAndQuater(int idGame, int quater);
+    List<Comments> findAllCommentsByIdGame(int idGame);
+    void saveFirstPlayersComments(int idGame);
 }

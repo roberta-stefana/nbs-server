@@ -23,6 +23,8 @@ public class Service implements IService{
     private QuaterPointsRepoJPA repo_quater_points;
     @Autowired
     private LiveGameRepoJPA repo_live_game;
+    @Autowired
+    private CommentsRepoJPA repo_comments;
 
     public Service(){ }
 
@@ -66,6 +68,15 @@ public class Service implements IService{
         return savedStatsList;
     }
 
+    public List<Stats> findAllGameStats(int idGame){
+        return repo_stats.findAllByIdGame(idGame);
+    }
+
+    //LiveGame
+    public LiveGame saveLiveGame(LiveGame liveGame){
+        return repo_live_game.save(liveGame);
+    }
+
     //Game
     public Game saveGame(Game game){
         LiveGame savedLiveGame= repo_live_game.save(new LiveGame());
@@ -76,11 +87,59 @@ public class Service implements IService{
         game.setDate(new Date());
         game.setIdTeam1(game.getTeam1().getIdTeam());
         game.setIdTeam2(game.getTeam2().getIdTeam());
+        game.setLive(true);
+
         return repo_game.save(game);
     }
+
+    public Game findGameByIdGame(int idGame){
+        return repo_game.findByIdGame(idGame);
+    }
+
+    public List<Game> findAllGameByLive(Boolean live){
+        return repo_game.findAllByLive(live);
+    }
+
+    public List<Game> findAllGame(){
+        return repo_game.findAll();
+    }
+
 
     //QuaterPoints
     public QuaterPoints saveQuaterPoints(QuaterPoints quaterPoints){
         return repo_quater_points.save(quaterPoints);
     }
+
+
+    //Comments
+    public Comments saveComments(Comments comments){
+        return repo_comments.save(comments);
+    }
+
+    public List<Comments> findAllCommentsByIdGameAndQuater(int idGame, int quater){
+        return repo_comments.findAllByIdGameAndQuater(idGame, quater);
+    }
+
+    public List<Comments> findAllCommentsByIdGame(int idGame){
+        return repo_comments.findAllByIdGame(idGame);
+    }
+
+    public void saveFirstPlayersComments(int idGame){
+        Game game = repo_game.findByIdGame(idGame);
+        List<Player> playersTeam1 = repo_player.findByTeam(game.getTeam1());
+        List<Player> playersTeam2 = repo_player.findByTeam(game.getTeam2());
+
+        playersTeam1.forEach(x ->{
+            if(x.isOnCourt()){
+                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + " IN", idGame, 1));
+            }
+        });
+
+        playersTeam2.forEach(x ->{
+            if(x.isOnCourt()){
+                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + "IN", idGame, 1));
+            }
+        });
+    }
+
 }

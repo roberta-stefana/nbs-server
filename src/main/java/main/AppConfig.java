@@ -21,9 +21,8 @@ public class AppConfig {
     }
 
     @Bean(name="websocket")
-    public void startWebsocket() {
-        WebsocketServer server = new WebsocketServer(8081);
-        server.start();
+    public WebsocketServer startWebsocket() {
+        return new WebsocketServer();
     }
 
     /*

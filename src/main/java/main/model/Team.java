@@ -20,20 +20,6 @@ public class Team implements Serializable {
 
     public Team(){}
 
-    public Team(String name, int category, String coach){
-        this.name=name;
-        this.category=category;
-        this.coach=coach;
-    }
-
-    public Team(int id, String name, int category, String coach){
-        this.idTeam = id;
-        this.name=name;
-        this.category=category;
-        this.coach=coach;
-    }
-
-
     public int getIdTeam() {
         return idTeam;
     }

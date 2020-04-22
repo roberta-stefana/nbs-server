@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StatsRepoJPA extends JpaRepository<Stats, Integer> {
     Stats save(Stats stats);
-    //List<Stats extends Stats> saveAll(Iterable<Stats> stats);
+    List<Stats> findAllByIdGame(int idGame);
 }

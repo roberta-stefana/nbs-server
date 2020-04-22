@@ -5,16 +5,15 @@ import main.model.ApplicationUser;
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    private ApplicationUser user;
     private String data;
     private MessageType type;
+    private Object object;
 
     public Message(){}
 
-    public Message(ApplicationUser user, String data, MessageType type) {
-        this.user = user;
-        this.data = data;
-        this.type=type;
+    public Message(MessageType messageType, Object object){
+        this.type=messageType;
+        this.object = object;
     }
 
     public MessageType getType() {
@@ -25,14 +24,6 @@ public class Message implements Serializable {
         this.type = type;
     }
 
-    public ApplicationUser getUser() {
-        return user;
-    }
-
-    public void setUser(ApplicationUser user) {
-        this.user = user;
-    }
-
     public String getData() {
         return data;
     }
@@ -41,11 +32,21 @@ public class Message implements Serializable {
         this.data = data;
     }
 
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+
     @Override
     public String toString() {
         return "Message{" +
-                "user='" + user + '\'' +
-                ", message='" + data + '\'' +
+                "data='" + data + '\'' +
+                ", type=" + type +
+                ", object=" + object +
                 '}';
     }
 }
