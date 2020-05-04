@@ -9,4 +9,5 @@ public interface CommentsRepoJPA extends JpaRepository<Comments, Integer> {
     Comments save(Comments comments);
     List<Comments> findAllByIdGame(int idGame);
     List<Comments> findAllByIdGameAndQuater(int idGame, int quater);
+    List<Comments> findAllByIdGameOrderByDateDesc(int idGame);
 }

@@ -28,6 +28,8 @@ public class LiveGame implements Serializable {
     private int activeUsers;
 
     public LiveGame(){
+        this.time="10:00";
+        this.quater=1;
     }
 
     public int getIdLiveGame() {

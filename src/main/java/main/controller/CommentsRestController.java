@@ -14,10 +14,10 @@ public class CommentsRestController {
     @Autowired
     private IService service;
 
-    @RequestMapping(value = "game/{idGame}",method = RequestMethod.GET)
+    @RequestMapping(value = "/game/{idGame}",method = RequestMethod.GET)
     public List<Comments> getAllCommentsByGame(@PathVariable int idGame) {
         List<Comments> comments = new ArrayList<>();
-        service.findAllCommentsByIdGame(idGame).forEach(x -> comments.add(x));
+        service.findAllCommentsByIdGameOrderByDate(idGame).forEach(x -> comments.add(x));
 
         return comments;
     }

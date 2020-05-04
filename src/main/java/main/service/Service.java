@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.*;
+import main.model.dto.StatsGameDTO;
 import main.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,12 +48,11 @@ public class Service implements IService{
     }
     public Iterable<Player> findPlayersByTeam(int teamId) {
         Team team = repo_team.getOne(teamId);
-        return repo_player.findByTeam(team);
+        return repo_player.findByIdTeam(team.getIdTeam());
     }
 
     //Stats
     public Stats saveStats(Stats stats){
-        stats.setIdGame(stats.getGame().getIdGame());
         stats.setIdPlayer(stats.getPlayer().getIdPlayer());
         return repo_stats.save(stats);
     }
@@ -62,7 +62,7 @@ public class Service implements IService{
         Game game = statsGameDTO.getGame();
         List<Stats> savedStatsList = new ArrayList<>();
         playerList.forEach(player -> {
-            Stats stats = new Stats(player, game);
+            Stats stats = new Stats(player, game.getIdGame());
             savedStatsList.add(repo_stats.save(stats));
         });
         return savedStatsList;
@@ -89,6 +89,10 @@ public class Service implements IService{
         game.setIdTeam2(game.getTeam2().getIdTeam());
         game.setLive(true);
 
+        return repo_game.save(game);
+    }
+
+    public Game updateGame(Game game){
         return repo_game.save(game);
     }
 
@@ -120,24 +124,24 @@ public class Service implements IService{
         return repo_comments.findAllByIdGameAndQuater(idGame, quater);
     }
 
-    public List<Comments> findAllCommentsByIdGame(int idGame){
-        return repo_comments.findAllByIdGame(idGame);
+    public List<Comments> findAllCommentsByIdGameOrderByDate(int idGame){
+        return repo_comments.findAllByIdGameOrderByDateDesc(idGame);
     }
 
     public void saveFirstPlayersComments(int idGame){
         Game game = repo_game.findByIdGame(idGame);
-        List<Player> playersTeam1 = repo_player.findByTeam(game.getTeam1());
-        List<Player> playersTeam2 = repo_player.findByTeam(game.getTeam2());
+        List<Player> playersTeam1 = repo_player.findByIdTeam(game.getTeam1().getIdTeam());
+        List<Player> playersTeam2 = repo_player.findByIdTeam(game.getTeam2().getIdTeam());
 
         playersTeam1.forEach(x ->{
             if(x.isOnCourt()){
-                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + " IN", idGame, 1));
+                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + " IN", idGame, 1,"10:00","0-0", x.getIdTeam()));
             }
         });
 
         playersTeam2.forEach(x ->{
             if(x.isOnCourt()){
-                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + "IN", idGame, 1));
+                saveComments(new Comments("#"+x.getNumber()+ " "+ x.getName() + " IN", idGame, 1,"10:00","0-0", x.getIdTeam()));
             }
         });
     }

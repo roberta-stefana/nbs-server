@@ -1,19 +1,37 @@
 package main.websocket;
 
 import main.model.ApplicationUser;
+import main.model.Comments;
 
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    private String data;
+    private String idGame;
     private MessageType type;
     private Object object;
+    private String time;
+    private Comments comment;
 
     public Message(){}
 
     public Message(MessageType messageType, Object object){
         this.type=messageType;
         this.object = object;
+    }
+
+    public Message(MessageType messageType, Comments comments){
+        this.type=messageType;
+        this.comment = comments;
+    }
+
+    public Message(MessageType messageType, Comments comments, Object object){
+        this.type=messageType;
+        this.comment = comments;
+        this.object = object;
+    }
+
+    public Message(MessageType messageType){
+        this.type = messageType;
     }
 
     public MessageType getType() {
@@ -24,12 +42,12 @@ public class Message implements Serializable {
         this.type = type;
     }
 
-    public String getData() {
-        return data;
+    public String getIdGame() {
+        return idGame;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setIdGame(String idGame) {
+        this.idGame = idGame;
     }
 
     public Object getObject() {
@@ -40,13 +58,31 @@ public class Message implements Serializable {
         this.object = object;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Comments getComment() {
+        return comment;
+    }
+
+    public void setComment(Comments comment) {
+        this.comment = comment;
+    }
+
 
     @Override
     public String toString() {
         return "Message{" +
-                "data='" + data + '\'' +
+                "idGame='" + idGame + '\'' +
                 ", type=" + type +
                 ", object=" + object +
+                ", time='" + time + '\'' +
+                ", comment=" + comment +
                 '}';
     }
 }

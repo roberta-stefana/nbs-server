@@ -1,8 +1,8 @@
 package main.controller;
 
 import main.model.*;
+import main.model.dto.StatsGameDTO;
 import main.service.IService;
-import main.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -14,10 +14,6 @@ public class Stats implements Serializable {
     @JoinColumn(name = "idPlayer", insertable = false, updatable = false)
     private Player player;
 
-    @ManyToOne
-    @JoinColumn(name = "idGame", insertable = false, updatable = false)
-    private Game game;
-
     @Column
     private String time;
     @Column
@@ -57,11 +53,10 @@ public class Stats implements Serializable {
 
     public Stats(){}
 
-    public Stats(Player player, Game game){
+    public Stats(Player player, int idGame){
         this.player = player;
-        this.game = game;
         this.idPlayer = player.getIdPlayer();
-        this.idGame = game.getIdGame();
+        this.idGame = idGame;
     }
 
     public int getBlockedShots() {
@@ -92,14 +87,6 @@ public class Stats implements Serializable {
 
     public void setEfficiency(int efficiency) {
         this.efficiency = efficiency;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public int getIdStats() {
@@ -235,7 +222,6 @@ public class Stats implements Serializable {
         return "Stats{" +
                 "idStats=" + idStats +
                 ", player=" + player +
-                ", game=" + game +
                 ", time='" + time + '\'' +
                 ", madeFt=" + madeFt +
                 ", missFt=" + missFt +

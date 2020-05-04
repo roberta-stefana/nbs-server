@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.*;
+import main.model.dto.StatsGameDTO;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public interface IService {
 
     //Game
     Game saveGame(Game game);
+    Game updateGame(Game game);
     Game findGameByIdGame(int idGame);
     List<Game> findAllGameByLive(Boolean live);
     List<Game> findAllGame();
@@ -37,6 +39,6 @@ public interface IService {
     //Comments
     Comments saveComments(Comments comments);
     List<Comments> findAllCommentsByIdGameAndQuater(int idGame, int quater);
-    List<Comments> findAllCommentsByIdGame(int idGame);
+    List<Comments> findAllCommentsByIdGameOrderByDate(int idGame);
     void saveFirstPlayersComments(int idGame);
 }

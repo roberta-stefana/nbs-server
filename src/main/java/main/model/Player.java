@@ -18,11 +18,8 @@ public class Player implements Serializable {
     private int number;
     @Column
     private boolean onCourt;
-
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idTeam")
-    private Team team;
+    @Column
+    private int idTeam;
 
     public Player(){
     }
@@ -59,14 +56,13 @@ public class Player implements Serializable {
         this.onCourt = onCourt;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getIdTeam() {
+        return idTeam;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setIdTeam(int idTeam) {
+        this.idTeam = idTeam;
     }
-
 
     @Override
     public String toString() {
@@ -75,7 +71,7 @@ public class Player implements Serializable {
                 ", name='" + name + '\'' +
                 ", number=" + number +
                 ", onCourt=" + onCourt +
-                ", team=" + team +
+                ", idTeam=" + idTeam +
                 '}';
     }
 }
