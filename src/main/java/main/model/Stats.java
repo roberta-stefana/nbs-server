@@ -39,13 +39,13 @@ public class Stats implements Serializable {
     @Column
     private int turnovers;
     @Column
-    private int fauls;
+    private int fouls;
+    @Column
+    private int foulsDrawn;
     @Column
     private int blockedShots;
     @Column
     private int efficiency;
-    @Column
-    private Time minutes;
     @Column
     private int idPlayer;
     @Column
@@ -57,20 +57,21 @@ public class Stats implements Serializable {
         this.player = player;
         this.idPlayer = player.getIdPlayer();
         this.idGame = idGame;
+        this.time = "0:0";
     }
 
     public int getBlockedShots() {
         return blockedShots;
     }
-    public int getFauls() {
-        return fauls;
+    public int getFouls() {
+        return fouls;
     }
     public void setBlockedShots(int blockedShots) {
         this.blockedShots = blockedShots;
     }
 
-    public void setFauls(int fauls) {
-        this.fauls = fauls;
+    public void setFouls(int fauls) {
+        this.fouls = fauls;
     }
 
     public String getTime() {
@@ -209,13 +210,19 @@ public class Stats implements Serializable {
         this.idGame = idGame;
     }
 
-    public void setMinutes(Time minutes) {
-        this.minutes = minutes;
+    public int getFoulsDrawn() {
+        return foulsDrawn;
     }
 
-    public Time getMinutes() {
-        return minutes;
+    public void setFoulsDrawn(int foulsDrawn) {
+        this.foulsDrawn = foulsDrawn;
     }
+
+    public void computeEfficiency(){
+        this.efficiency = madeFt + made2p*2 + made3p*3 + offRebounds + defRebounds + assists + steals + blockedShots
+                - turnovers - miss3p - miss2p - missFt;
+    }
+
 
     @Override
     public String toString() {
@@ -234,8 +241,10 @@ public class Stats implements Serializable {
                 ", assists=" + assists +
                 ", steals=" + steals +
                 ", turnovers=" + turnovers +
+                ", fouls=" + fouls +
+                ", foulsDrawn=" + foulsDrawn +
+                ", blockedShots=" + blockedShots +
                 ", efficiency=" + efficiency +
-                ", minutes=" + minutes +
                 ", idPlayer=" + idPlayer +
                 ", idGame=" + idGame +
                 '}';

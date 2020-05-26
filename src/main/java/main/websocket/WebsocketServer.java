@@ -1,14 +1,11 @@
 package main.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import main.model.Comments;
-import main.model.Game;
-import main.model.LiveGame;
-import main.model.Stats;
+import main.model.*;
 import main.model.dto.GameStatsDTO;
-import main.model.dto.StatsGameDTO;
 import main.service.IService;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -17,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
 
@@ -96,6 +94,51 @@ public class WebsocketServer extends WebSocketServer {
                 case SEND_MISS_3:
                     Stats stats6 = mapper.convertValue(msg.getObject(), Stats.class);
                     sendMiss(stats6,Integer.parseInt(msg.getIdGame()), msg.getTime(), 3);
+                    break;
+                case SEND_OFF_REBOUND:
+                    Stats stats7 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendOffRebound(stats7,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_DEF_REBOUND:
+                    Stats stats8 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendDefRebound(stats8,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_BLOCKED_SHOT:
+                    Stats stats9 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendBlockedShot(stats9,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_ASSIST:
+                    Stats stats10 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendAssist(stats10,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_STEAL:
+                    Stats stats14 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendSteal(stats14,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_TURNOVER:
+                    Stats stats11 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendTurnover(stats11,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_FOUL:
+                    Stats stats12 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendFoul(stats12,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_FOUL_DRAWN:
+                    Stats stats13 = mapper.convertValue(msg.getObject(), Stats.class);
+                    sendFoulDrawn(stats13,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_PLAYERS_TIME:
+                    List<Stats> statsList = new ArrayList<>();
+                    List list = mapper.convertValue(msg.getObject(), List.class);
+                    list.forEach(x->statsList.add(mapper.convertValue(x, Stats.class)));
+                    sendPlayersTime(statsList,Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_CHANGE_QUATER:
+
+                    sendChangeQuater(Integer.parseInt(msg.getIdGame()), msg.getTime());
+                    break;
+                case SEND_SUBSTITUTION:
+                    sendSubstitution((String)msg.getObject(),Integer.parseInt(msg.getIdGame()), msg.getTime());
                     break;
             }
 
@@ -195,6 +238,134 @@ public class WebsocketServer extends WebSocketServer {
         games.remove(game);
     }
 
+    private void sendChangeQuater(int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_CHANGE_QUATER);
+        Game game = getGameById(idGame);
+        LiveGame liveGame = game.getLiveGame();
+        String textComment = "";
+        if(liveGame.getQuater()==4){
+            textComment =" END GAME ";
+        }else{
+            int lastQuater = liveGame.getQuater();
+            liveGame.setQuater(lastQuater+1);
+            liveGame.setTime("10:00");
+            service.saveLiveGame(liveGame);
+            textComment ="End of quater "+lastQuater+". Quater "+liveGame.getQuater()+" is about to start.";
+        }
+        Comments comments = new Comments(
+                textComment,
+                idGame,liveGame.getQuater(),time,
+                liveGame.getPoints1()+"-"+ liveGame.getPoints2(), game.getIdTeam1());
+        Comments savedComment = service.saveComments(comments);
+        message.setComment(savedComment);
+        broadcastMessage(message, users.get(idGame));
+    }
+
+    private void sendOffRebound(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" OFFENSIVE REBOUND";
+        stats.setOffRebounds(stats.getOffRebounds()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendDefRebound(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" DEFENSIVE REBOUND";
+        stats.setDefRebounds(stats.getDefRebounds()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendBlockedShot(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" BLOCKED SHOT";
+        stats.setBlockedShots(stats.getBlockedShots()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendAssist(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" ASSIST";
+        stats.setAssists(stats.getAssists()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendSteal(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" STEAL";
+        stats.setSteals(stats.getSteals()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendTurnover(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" TURNOVER";
+        stats.setTurnovers(stats.getTurnovers()+1);
+        stats.computeEfficiency();
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendFoul(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" PERSONAL FOUL";
+        stats.setFouls(stats.getFouls()+1);
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendFoulDrawn(Stats stats, int idGame, String time){
+        Message message = new Message(MessageType.RECEIVE_STATS_UPDATE);
+        String textComment =" FOUL DRAWN";
+        stats.setFoulsDrawn(stats.getFoulsDrawn()+1);
+        Stats newStats = service.saveStats(stats);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        createAndBroadcastComment(idGame,time, textComment, message, newStats, liveGame);
+    }
+
+    private void sendPlayersTime(List<Stats> statsList, int idGame, String time){
+        List<Stats> savedStats = new ArrayList<>();
+        String[] timeComponents= time.split("/");
+        String intervalTime = timeComponents[0];
+        String gameTime = timeComponents[1];
+        LiveGame liveGame= getGameById(idGame).getLiveGame();
+        liveGame.setTime(gameTime);
+        service.saveLiveGame(liveGame);
+        statsList.forEach(x->{
+            String playerTime = x.getTime();
+            String[] arr = playerTime.split(":");
+            int existingMin = Integer.parseInt(arr[0]);
+            int existingSec = Integer.parseInt(arr[1]);
+            String[] arr2 = intervalTime.split((":"));
+            int plusMin = Integer.parseInt(arr2[0]);
+            int plusSec = Integer.parseInt(arr2[1]);
+            int finalSec = (existingSec+plusSec) % 60;
+            int finalMin = existingMin+ plusMin+ (existingSec+ plusSec)/60;
+
+            x.setTime(finalMin+":"+finalSec);
+            Stats newStats = service.saveStats(x);
+            savedStats.add(newStats);
+        });
+        Message message = new Message(MessageType.RECEIVE_PLAYERS_TIME, savedStats, gameTime);
+        broadcastMessage(message,users.get(idGame));
+    }
+
     private void sendMiss(Stats stats, int idGame, String time, int points){
         String commentText ="";
         Message message;
@@ -211,6 +382,7 @@ public class WebsocketServer extends WebSocketServer {
             commentText = " 3 points missed";
             message = new Message((MessageType.RECEIVE_MISS_3));
         }
+        stats.computeEfficiency();
         Stats newStats = service.saveStats(stats);
         LiveGame liveGame= getGameById(idGame).getLiveGame();
 
@@ -240,11 +412,32 @@ public class WebsocketServer extends WebSocketServer {
             commentText = " 3 points made";
             message = new Message((MessageType.RECEIVE_SCORE_3));
         }
+        stats.computeEfficiency();
         Stats newStats = service.saveStats(stats);
         liveGame.setTime(time);
         LiveGame newLiveGame = service.saveLiveGame(liveGame);
 
         createAndBroadcastComment(idGame, time, commentText, message, newStats, newLiveGame);
+    }
+
+    private void sendSubstitution(String playersId, int idGame, String time){
+        String[] playersIdComponents= playersId.split(",");
+        Player playerOut = service.findPlayerById(Integer.parseInt(playersIdComponents[0]));
+        playerOut.setOnCourt(false);
+        service.savePlayer(playerOut);
+        Player playerIn = service.findPlayerById(Integer.parseInt(playersIdComponents[1]));
+        playerIn.setOnCourt(true);
+        service.savePlayer(playerIn);
+        LiveGame liveGame = getGameById(idGame).getLiveGame();
+        String object = playersId + ","+playerIn.getIdTeam();
+        Comments comments = new Comments(
+                "#"+playerOut.getNumber()+ " "+playerOut.getName()+
+                " OUT, #" + playerIn.getNumber()+ " " + playerIn.getName() + " IN",
+                idGame,liveGame.getQuater(),time,
+                liveGame.getPoints1()+"-"+ liveGame.getPoints2(), playerIn.getIdTeam());
+        Comments savedComment = service.saveComments(comments);
+        Message message = new Message(MessageType.RECEIVE_SUBSTITUTION, savedComment, (Object)object);
+        broadcastMessage(message, users.get(idGame));
     }
 
     private void createAndBroadcastComment(int idGame, String time, String commentText, Message message, Stats newStats, LiveGame liveGame) {

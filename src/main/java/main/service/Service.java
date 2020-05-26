@@ -46,10 +46,14 @@ public class Service implements IService{
     public Player savePlayer(Player player){
         return repo_player.save(player);
     }
+    public Player findPlayerById(int idPlayer){
+        return repo_player.findByIdPlayer(idPlayer);
+    }
     public Iterable<Player> findPlayersByTeam(int teamId) {
         Team team = repo_team.getOne(teamId);
         return repo_player.findByIdTeam(team.getIdTeam());
     }
+
 
     //Stats
     public Stats saveStats(Stats stats){
@@ -70,6 +74,10 @@ public class Service implements IService{
 
     public List<Stats> findAllGameStats(int idGame){
         return repo_stats.findAllByIdGame(idGame);
+    }
+
+    public List<Stats> findAllStatsByIdPlayer(int idPlayer){
+        return repo_stats.findAllByIdPlayer(idPlayer);
     }
 
     //LiveGame

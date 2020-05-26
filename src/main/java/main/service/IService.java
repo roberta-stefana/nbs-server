@@ -15,12 +15,14 @@ public interface IService {
 
     //Players
     Player savePlayer(Player player);
+    Player findPlayerById(int idPlayer);
     Iterable<Player> findPlayersByTeam(int teamId);
 
     //Stats
     Stats saveStats(Stats stats);
     List<Stats> saveTeamStats(StatsGameDTO statsGameDTO);
     List<Stats> findAllGameStats(int idGame);
+    List<Stats> findAllStatsByIdPlayer(int idPlayer);
 
     //LiveGame
     LiveGame saveLiveGame(LiveGame liveGame);

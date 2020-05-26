@@ -19,6 +19,12 @@ public class Message implements Serializable {
         this.object = object;
     }
 
+    public Message(MessageType messageType, Object object, String time){
+        this.type=messageType;
+        this.object = object;
+        this.time = time;
+    }
+
     public Message(MessageType messageType, Comments comments){
         this.type=messageType;
         this.comment = comments;

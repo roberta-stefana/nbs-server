@@ -35,5 +35,12 @@ public class StatsRestController {
         return stats;
     }
 
+    @RequestMapping(value = "/player/{idPlayer}",method = RequestMethod.GET)
+    public List<Stats> findAllStatsByIdPlayer( @PathVariable int idPlayer) {
+        List<Stats> stats = new ArrayList<>();
+        service.findAllStatsByIdPlayer(idPlayer).forEach(x -> stats.add(x));
+        return stats;
+    }
+
 
 }

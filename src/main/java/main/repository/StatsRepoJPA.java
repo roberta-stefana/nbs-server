@@ -8,4 +8,5 @@ import java.util.List;
 public interface StatsRepoJPA extends JpaRepository<Stats, Integer> {
     Stats save(Stats stats);
     List<Stats> findAllByIdGame(int idGame);
+    List<Stats> findAllByIdPlayer(int idPlayer);
 }
