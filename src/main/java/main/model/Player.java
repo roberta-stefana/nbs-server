@@ -21,6 +21,11 @@ public class Player implements Serializable {
     @Column
     private int idTeam;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="idTeam", insertable = false, updatable = false)
+    private Team team;
+
     public Player(){
     }
 

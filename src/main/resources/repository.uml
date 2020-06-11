@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="452.0" y="0.0">main.repository.PlayerRepoJPA</node>
+    <node x="913.0" y="105.0">main.service.Service</node>
+    <node x="1279.0" y="0.0">main.repository.StatsRepoJPA</node>
+    <node x="1674.0" y="0.0">main.service.IService</node>
+    <node x="1067.0" y="0.0">main.repository.LiveGameRepoJPA</node>
+    <node x="0.0" y="0.0">main.repository.TeamRepoJPA</node>
+    <node x="173.0" y="0.0">main.repository.ApplicationUserRepoJPA</node>
+    <node x="1462.0" y="0.0">main.repository.CommentsRepoJPA</node>
+    <node x="644.0" y="0.0">main.repository.QuaterPointsRepoJPA</node>
+    <node x="894.0" y="0.0">main.repository.GameRepoJPA</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.service.Service" target="main.repository.LiveGameRepoJPA">
+      <point x="12.777777777777828" y="-17.5" />
+      <point x="983.2777777777778" y="55.0" />
+      <point x="1163.0" y="55.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.GameRepoJPA">
+      <point x="0.0" y="-17.5" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.CommentsRepoJPA">
+      <point x="38.33333333333337" y="-17.5" />
+      <point x="1008.8333333333334" y="75.0" />
+      <point x="1558.0" y="75.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.ApplicationUserRepoJPA">
+      <point x="-38.33333333333326" y="-17.5" />
+      <point x="932.1666666666667" y="75.0" />
+      <point x="302.5" y="75.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.PlayerRepoJPA">
+      <point x="-25.555555555555543" y="-17.5" />
+      <point x="944.9444444444445" y="65.0" />
+      <point x="538.0" y="65.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.StatsRepoJPA">
+      <point x="25.555555555555543" y="-17.5" />
+      <point x="996.0555555555555" y="65.0" />
+      <point x="1360.5" y="65.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.QuaterPointsRepoJPA">
+      <point x="-12.777777777777828" y="-17.5" />
+      <point x="957.7222222222222" y="55.0" />
+      <point x="759.0" y="55.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.service.IService">
+      <point x="51.111111111111086" y="-17.5" />
+      <point x="1021.6111111111111" y="85.0" />
+      <point x="1736.0" y="85.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.repository.TeamRepoJPA">
+      <point x="-51.111111111111086" y="-17.5" />
+      <point x="919.3888888888889" y="85.0" />
+      <point x="76.5" y="85.0" />
+      <point x="0.0" y="17.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6523652365236524" x="898.9999999999999" y="70.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

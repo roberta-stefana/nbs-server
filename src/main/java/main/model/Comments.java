@@ -1,5 +1,7 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +25,11 @@ public class Comments implements Serializable {
     private int idTeam;
     @Column
     private Date date;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="idLiveGame", insertable = false, updatable = false)
+    private Game game;
 
     public Comments(){}
 

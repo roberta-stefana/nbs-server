@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="0.0">main.model.ApplicationUser</node>
+    <node x="0.0" y="240.0">main.model.Stats</node>
+    <node x="167.0" y="160.0">main.model.Player</node>
+    <node x="206.0" y="80.0">main.model.LiveGame</node>
+    <node x="0.0" y="80.0">main.model.QuaterPoints</node>
+    <node x="0.0" y="160.0">main.model.Comments</node>
+    <node x="139.0" y="240.0">main.model.Game</node>
+    <node x="0.0" y="320.0">main.model.Team</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="226.0" y="147.5" />
+  <SelectedNodes>
+    <node>main.model.ApplicationUser</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

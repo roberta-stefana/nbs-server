@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1225.625" y="190.0">main.controller.StatsRestController</node>
+    <node x="214.625" y="190.0">main.controller.UserRestController</node>
+    <node x="452.62499999999994" y="190.0">main.controller.GameRestController</node>
+    <node x="1473.625" y="190.0">main.controller.TeamRestController</node>
+    <node x="4.625" y="190.0">main.websocket.WebsocketServer</node>
+    <node x="0.0" y="85.0">main.websocket.Message</node>
+    <node x="9.25" y="0.0">main.websocket.MessageType</node>
+    <node x="967.625" y="190.0">main.controller.PlayerRestController</node>
+    <node x="1711.625" y="190.0">main.service.Service</node>
+    <node x="891.8749999999999" y="85.0">main.service.IService</node>
+    <node x="676.625" y="374.0">main.controller.CommentsRestController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.controller.TeamRestController" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="1582.625" y="150.0" />
+      <point x="990.9999999999999" y="150.0" />
+      <point x="38.125" y="17.5" />
+    </edge>
+    <edge source="main.websocket.WebsocketServer" target="main.websocket.MessageType">
+      <point x="23.75" y="-17.5" />
+      <point x="123.5" y="60.0" />
+      <point x="135.08333333333326" y="60.0" />
+      <point x="50.33333333333326" y="17.5" />
+    </edge>
+    <edge source="main.websocket.WebsocketServer" target="main.service.IService">
+      <point x="71.25" y="-17.5" />
+      <point x="170.875" y="140.0" />
+      <point x="899.4999999999999" y="140.0" />
+      <point x="-53.375" y="17.5" />
+    </edge>
+    <edge source="main.websocket.Message" target="main.websocket.MessageType">
+      <point x="-28.25" y="-17.5" />
+      <point x="28.25" y="60.0" />
+      <point x="34.41666666666674" y="60.0" />
+      <point x="-50.33333333333326" y="17.5" />
+    </edge>
+    <edge source="main.service.Service" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="1768.125" y="140.0" />
+      <point x="1006.2499999999999" y="140.0" />
+      <point x="53.375" y="17.5" />
+    </edge>
+    <edge source="main.controller.CommentsRestController" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="819.125" y="170.0" />
+      <point x="945.2499999999999" y="170.0" />
+      <point x="-7.625" y="17.5" />
+    </edge>
+    <edge source="main.controller.GameRestController" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="561.625" y="160.0" />
+      <point x="929.9999999999999" y="160.0" />
+      <point x="-22.875" y="17.5" />
+    </edge>
+    <edge source="main.controller.UserRestController" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="323.625" y="150.0" />
+      <point x="914.7499999999999" y="150.0" />
+      <point x="-38.125" y="17.5" />
+    </edge>
+    <edge source="main.controller.PlayerRestController" target="main.service.IService">
+      <point x="-1.1368683772161603E-13" y="-17.5" />
+      <point x="1086.6249999999998" y="170.0" />
+      <point x="960.4999999999999" y="170.0" />
+      <point x="7.625" y="17.5" />
+    </edge>
+    <edge source="main.websocket.WebsocketServer" target="main.websocket.Message">
+      <point x="-23.75" y="-17.5" />
+      <point x="75.875" y="170.0" />
+      <point x="84.75" y="170.0" />
+      <point x="28.25" y="17.5" />
+    </edge>
+    <edge source="main.controller.StatsRestController" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="1339.625" y="160.0" />
+      <point x="975.7499999999999" y="160.0" />
+      <point x="22.875" y="17.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="1194.9999999999998" y="-68.0" />
+  <SelectedNodes>
+    <node>main.controller.CommentsRestController</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

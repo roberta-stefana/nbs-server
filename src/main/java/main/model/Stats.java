@@ -1,5 +1,7 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
@@ -50,6 +52,10 @@ public class Stats implements Serializable {
     private int idPlayer;
     @Column
     private int idGame;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="idLiveGame", insertable = false, updatable = false)
+    private Game game;
 
     public Stats(){}
 

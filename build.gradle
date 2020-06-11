@@ -28,7 +28,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
     compile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.4.1'
-    // https://mvnrepository.com/artifact/javax.enterprise/cdi-api
     compile group: 'javax.enterprise', name: 'cdi-api', version: '2.0.SP1'
 
     compile ('io.socket:socket.io-server:1.0.0')

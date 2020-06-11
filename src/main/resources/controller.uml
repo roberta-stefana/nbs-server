@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="245.0">main.controller.StatsRestController</node>
+    <node x="0.0" y="405.0">main.controller.UserRestController</node>
+    <node x="4.5" y="85.0">main.service.Service</node>
+    <node x="0.0" y="165.0">main.controller.PlayerRestController</node>
+    <node x="0.0" y="0.0">main.service.IService</node>
+    <node x="265.0" y="325.0">main.controller.TeamRestController</node>
+    <node x="0.0" y="325.0">main.controller.GameRestController</node>
+    <node x="169.0" y="0.0">main.controller.CommentsRestController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.service.Service" target="main.service.IService">
+      <point x="0.0" y="-17.5" />
+      <point x="0.0" y="17.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.642122360584732" x="913.4999999999999" y="204.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
