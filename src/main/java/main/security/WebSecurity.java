@@ -34,6 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/nbs/teams").permitAll()
                 .antMatchers(HttpMethod.GET, "/nbs/players/team/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/nbs/stats/player/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/nbs/stats/game/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

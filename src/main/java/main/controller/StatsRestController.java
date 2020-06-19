@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "192.168.100.89:3000")
 @RestController
 @RequestMapping("/nbs/stats")
 public class StatsRestController {

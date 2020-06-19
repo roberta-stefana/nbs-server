@@ -1,0 +1,34 @@
+version: '2'
+services:
+  # Database
+
+  nbs-db:
+    image: postgres
+    container_name: nbs-db
+    hostname: nbs-db
+    restart: always
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'nbsadmin'
+      POSTGRES_DB: 'nbsdb'
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  nbs-server:
+    image: server
+    container_name: nbs-server
+    hostname: nbs-server
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - spring.datasource.url=jdbc:postgresql://nbs-db:5432/nbsdb
+      - spring.datasource.username=postgres
+      - spring.datasource.password=nbsadmin
+    depends_on:
+      - nbs-db
+
+volumes:
+  postgres:
