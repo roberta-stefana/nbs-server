@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "192.168.100.89:3000")
+@CrossOrigin(origins = "https://napoca-baschet-school.web.app/")
 @RestController
 @RequestMapping("/nbs/comments")
 public class CommentsRestController {

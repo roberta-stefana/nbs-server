@@ -21,7 +21,7 @@ services:
     container_name: nbs-server
     hostname: nbs-server
     ports:
-      - "8080:8080"
+      - "8443:8443"
       - "8081:8081"
     environment:
       - spring.datasource.url=jdbc:postgresql://nbs-db:5432/nbsdb

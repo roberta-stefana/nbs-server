@@ -9,5 +9,5 @@ public interface GameRepoJPA extends JpaRepository<Game, Integer> {
     Game save(Game game);
     Game findByIdGame(int idGame);
     List<Game> findAll();
-    List<Game> findAllByLive(Boolean live);
+    List<Game> findAllByLiveOrderByDateDesc(Boolean live);
 }

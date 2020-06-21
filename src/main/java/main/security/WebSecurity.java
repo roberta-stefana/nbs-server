@@ -54,12 +54,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
         // This Origin header you can see that in Network tab
-    /*
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+/*
+        configuration.setAllowedOrigins(Arrays.asList("https://napoca-baschet-school.web.app/"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST"));
         configuration.setAllowedHeaders(Arrays.asList("content-type"));
         configuration.setAllowCredentials(true);
-    */
+*/
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
