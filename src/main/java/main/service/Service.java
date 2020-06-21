@@ -108,7 +108,7 @@ public class Service implements IService{
     }
 
     public List<Game> findAllGameByLive(Boolean live){
-        return repo_game.findAllByLive(live);
+        return repo_game.findAllByLiveOrderByDateDesc(live);
     }
 
     public List<Game> findAllGame(){

@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/nbs/games")
 public class GameRestController {

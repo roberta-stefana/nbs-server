@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id "com.palantir.docker" version "0.25.0"
 }
 
 apply plugin: 'java'
@@ -13,6 +14,13 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+docker {
+    name "server"
+    dockerfile file('src/docker/Dockerfile')
+    copySpec.from(jar).rename(".*","app.jar")
+    buildArgs(['JAR_FILE': "app.jar"])
 }
 
 dependencies {
