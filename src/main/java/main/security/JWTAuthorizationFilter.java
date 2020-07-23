@@ -22,7 +22,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
-    }  //AuthenticationManager?
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -31,7 +31,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String header = req.getHeader(HEADER_STRING);
 
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(req, res);                                   // do filter?
+            chain.doFilter(req, res);
             return;
         }
 

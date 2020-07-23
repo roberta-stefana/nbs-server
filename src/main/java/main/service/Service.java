@@ -52,7 +52,7 @@ public class Service implements IService{
     }
     public Iterable<Player> findPlayersByTeam(int teamId) {
         Team team = repo_team.getOne(teamId);
-        return repo_player.findByIdTeam(team.getIdTeam());
+        return repo_player.findByIdTeamOrderByNumber(team.getIdTeam());
     }
 
 
@@ -136,8 +136,8 @@ public class Service implements IService{
     }
 
     private void saveFirstPlayersComments(Game game){
-        List<Player> playersTeam1 = repo_player.findByIdTeam(game.getTeam1().getIdTeam());
-        List<Player> playersTeam2 = repo_player.findByIdTeam(game.getTeam2().getIdTeam());
+        List<Player> playersTeam1 = repo_player.findByIdTeamOrderByNumber(game.getTeam1().getIdTeam());
+        List<Player> playersTeam2 = repo_player.findByIdTeamOrderByNumber(game.getTeam2().getIdTeam());
 
         playersTeam1.forEach(x ->{
             if(x.isOnCourt()){
@@ -177,6 +177,20 @@ public class Service implements IService{
     public void endGame(Game game){
         game.setLive(false);
         repo_game.save(game);
+        List<Player> players1 = repo_player.findByIdTeamOrderByNumber(game.getTeam1().getIdTeam());
+        List<Player> players2 = repo_player.findByIdTeamOrderByNumber(game.getTeam2().getIdTeam());
+        players1.forEach(player->{
+            if(player.isOnCourt()){
+                player.setOnCourt(false);
+                repo_player.save(player);
+            }
+        });
+        players2.forEach(player->{
+            if(player.isOnCourt()){
+                player.setOnCourt(false);
+                repo_player.save(player);
+            }
+        });
     }
 
     public List<Object> changeQuater(Game game, String time){
@@ -204,20 +218,28 @@ public class Service implements IService{
         switch (type){
             case "OFF REB":
                 stats.setOffRebounds(stats.getOffRebounds()+1);
+                break;
             case "DEF REB":
                 stats.setDefRebounds(stats.getDefRebounds()+1);
+                break;
             case "BS":
                 stats.setBlockedShots(stats.getBlockedShots()+1);
+                break;
             case "AS":
                 stats.setAssists(stats.getAssists()+1);
+                break;
             case "ST":
                 stats.setSteals(stats.getSteals()+1);
+                break;
             case "TO":
                 stats.setTurnovers(stats.getTurnovers()+1);
+                break;
             case "PF":
                 stats.setFouls(stats.getFouls()+1);
+                break;
             case "FD":
                 stats.setFoulsDrawn(stats.getFoulsDrawn()+1);
+                break;
         }
 
         stats.computeEfficiency();
