@@ -12,11 +12,13 @@ import org.java_websocket.server.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.*;
 
 @Component
+
 public class WebsocketServer extends WebSocketServer {
     @Autowired
     private IService service;

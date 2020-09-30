@@ -1,0 +1,1 @@
+web: java -jar build/libs/nbs-server-1.0-SNAPSHOT.jar
