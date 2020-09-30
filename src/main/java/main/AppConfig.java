@@ -19,13 +19,13 @@ public class AppConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+/*
     @Bean(name="websocket")
     public WebsocketServer startWebsocket() {
         return new WebsocketServer();
     }
 
-    /*
+
     @Bean(name="websocket")
     public WebsocketServer createWebsocketServer(){
         return new WebsocketServer();
