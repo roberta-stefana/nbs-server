@@ -29,7 +29,6 @@ public class WebsocketServer extends WebSocketServer {
         super(new InetSocketAddress(8081));
         users = new HashMap<>();
         games = new ArrayList<>();
-        this.setReuseAddr(true);
         this.start();
     }
 
