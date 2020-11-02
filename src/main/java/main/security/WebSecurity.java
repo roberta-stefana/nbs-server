@@ -34,6 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.GET, "/websocket-chat/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/nbs/games").permitAll()
                 .antMatchers(HttpMethod.GET, "/nbs/comments/game/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/nbs/teams").permitAll()
