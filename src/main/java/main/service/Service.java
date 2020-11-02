@@ -4,8 +4,6 @@ import main.model.*;
 import main.model.dto.GameStatsDTO;
 import main.model.dto.StatsGameDTO;
 import main.repository.*;
-import main.websocket.Message;
-import main.websocket.MessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -255,7 +253,7 @@ public class Service implements IService{
 
     public List<Object> updateMissShot(int points, Stats stats){
         String commentText ="";
-        Message message;
+        //Message message;
         if(points == 1){
             stats.setMissFt(stats.getMissFt()+1);
             commentText =" 1 free throw missed";
@@ -298,7 +296,7 @@ public class Service implements IService{
             liveGame.setPoints2(liveGame.getPoints2()+points);
         }
         String commentText="";
-        Message message;
+        //Message message;
         if(points == 1){
             stats.setMadeFt(stats.getMadeFt()+1);
             commentText =" 1 free throw made";
