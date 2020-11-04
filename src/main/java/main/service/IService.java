@@ -3,6 +3,7 @@ package main.service;
 import main.model.*;
 import main.model.dto.GameStatsDTO;
 import main.model.dto.StatsGameDTO;
+import main.websocket.Message;
 
 import java.util.List;
 
@@ -41,16 +42,20 @@ public interface IService {
     Comments saveComments(Comments comments);
     List<Comments> findAllCommentsByIdGameAndQuater(int idGame, int quater);
     List<Comments> findAllCommentsByIdGameOrderByDate(int idGame);
+    List<Comments> findAllCommentsByIdGame(int idGame);
 
     //WebSocket
-    Game adminJoined(int idGame);
-    GameStatsDTO addUser(Game game, int activeUsers);
+    GameStatsDTO hostGame(int idGame);
+
+    GameStatsDTO addUser(int idGame);
     Game setActiveUsersGame(Game game, int activeUsers);
-    void endGame(Game game);
-    List<Object> changeQuater(Game game, String time);
+    void endGame(int idGame);
+    List<Object> changeQuater(int idGame, String time);
     Stats updateStats(Stats stats, String type);
-    List<Object> updatePlayersTime(Game game, List<Stats> statsList, String time);
+    List<Object> updatePlayersTime(int idGame, List<Stats> statsList, String time);
     List<Object> updateMissShot(int points, Stats stats);
-    List<Object> updateSubstitution(String playersId, Game game, String time);
-    List<Object> updateScoreShot(Game game,Stats stats, int points, String time);
+    List<Object> updateSubstitution(String playersId, int idGame, String time);
+    List<Object> updateScoreShot(int idGame,Stats stats, int points, String time);
+
+    Message composeComment(int idGame, String time, String commentText, Message message, Stats newStats);
 }

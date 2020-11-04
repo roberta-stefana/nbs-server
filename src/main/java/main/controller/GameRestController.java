@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.model.*;
+import main.model.dto.GameStatsDTO;
 import main.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,6 @@ public class GameRestController {
     public Game getGameById(@PathVariable int idGame) {
         return service.findGameByIdGame(idGame);
     }
+
 
 }

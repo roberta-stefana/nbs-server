@@ -4,6 +4,7 @@ import main.model.*;
 import main.model.dto.GameStatsDTO;
 import main.model.dto.StatsGameDTO;
 import main.repository.*;
+import main.websocket.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -133,6 +134,10 @@ public class Service implements IService{
         return repo_comments.findAllByIdGameOrderByDateDesc(idGame);
     }
 
+    public List<Comments> findAllCommentsByIdGame(int idGame){
+        return repo_comments.findAllByIdGame(idGame);
+    }
+
     private void saveFirstPlayersComments(Game game){
         List<Player> playersTeam1 = repo_player.findByIdTeam(game.getTeam1().getIdTeam());
         List<Player> playersTeam2 = repo_player.findByIdTeam(game.getTeam2().getIdTeam());
@@ -151,14 +156,19 @@ public class Service implements IService{
     }
 
     //WebSocket
-    public Game adminJoined(int idGame){
+    public GameStatsDTO hostGame(int idGame){
         Game game = repo_game.findByIdGame(idGame);
-        saveFirstPlayersComments(game);
-        return game;
+        if(findAllCommentsByIdGame(idGame).size()==0) {
+            saveFirstPlayersComments(game);
+        }
+        List<Stats> stats = findAllGameStats(idGame);
+        GameStatsDTO gameStatsDTO = new GameStatsDTO(game, stats);
+        return gameStatsDTO;
     }
 
-    public GameStatsDTO addUser(Game game, int activeUsers){
-        Game newGame = setActiveUsersGame(game, activeUsers);
+    public GameStatsDTO addUser(int idGame){
+        Game game = findGameByIdGame(idGame);
+        Game newGame = setActiveUsersGame(game, game.getLiveGame().getActiveUsers()+1);
         List<Stats> stats = findAllGameStats(game.getIdGame());
         GameStatsDTO gameStatsDTO = new GameStatsDTO(newGame, stats);
         return gameStatsDTO;
@@ -172,12 +182,14 @@ public class Service implements IService{
         return game;
     }
 
-    public void endGame(Game game){
+    public void endGame(int idGame){
+        Game game = findGameByIdGame(idGame);
         game.setLive(false);
         repo_game.save(game);
     }
 
-    public List<Object> changeQuater(Game game, String time){
+    public List<Object> changeQuater(int idGame, String time){
+        Game game = findGameByIdGame(idGame);
         LiveGame liveGame = game.getLiveGame();
         String textComment = "";
         if(liveGame.getQuater()==4){
@@ -202,20 +214,28 @@ public class Service implements IService{
         switch (type){
             case "OFF REB":
                 stats.setOffRebounds(stats.getOffRebounds()+1);
+                break;
             case "DEF REB":
                 stats.setDefRebounds(stats.getDefRebounds()+1);
+                break;
             case "BS":
                 stats.setBlockedShots(stats.getBlockedShots()+1);
+                break;
             case "AS":
                 stats.setAssists(stats.getAssists()+1);
+                break;
             case "ST":
                 stats.setSteals(stats.getSteals()+1);
+                break;
             case "TO":
                 stats.setTurnovers(stats.getTurnovers()+1);
+                break;
             case "PF":
                 stats.setFouls(stats.getFouls()+1);
+                break;
             case "FD":
                 stats.setFoulsDrawn(stats.getFoulsDrawn()+1);
+                break;
         }
 
         stats.computeEfficiency();
@@ -223,12 +243,13 @@ public class Service implements IService{
         return newStats;
     }
 
-    public List<Object> updatePlayersTime(Game game, List<Stats> statsList, String time){
+    public List<Object> updatePlayersTime(int idGame, List<Stats> statsList, String time){
         List<Stats> savedStats = new ArrayList<>();
         String[] timeComponents= time.split("/");
         String intervalTime = timeComponents[0];
         String gameTime = timeComponents[1];
 
+        Game game = findGameByIdGame(idGame);
         LiveGame liveGame= game.getLiveGame();
         liveGame.setTime(gameTime);
         LiveGame newLiveGame = saveLiveGame(liveGame);
@@ -269,7 +290,8 @@ public class Service implements IService{
         return Arrays.asList(commentText, newStats);
     }
 
-    public List<Object> updateSubstitution(String playersId, Game game, String time){
+    public List<Object> updateSubstitution(String playersId, int idGame, String time){
+        Game game = findGameByIdGame(idGame);
         String[] playersIdComponents= playersId.split(",");
         Player playerOut = findPlayerById(Integer.parseInt(playersIdComponents[0]));
         playerOut.setOnCourt(false);
@@ -288,7 +310,8 @@ public class Service implements IService{
         return Arrays.asList(playersIdAndTeam, savedComment);
     }
 
-    public List<Object> updateScoreShot(Game game,Stats stats, int points, String time){
+    public List<Object> updateScoreShot(int idGame,Stats stats, int points, String time){
+        Game game = findGameByIdGame(idGame);
         LiveGame liveGame = game.getLiveGame();
         if(stats.getPlayer().getIdTeam() == game.getIdTeam1()){
             liveGame.setPoints1(liveGame.getPoints1()+points);
@@ -296,7 +319,6 @@ public class Service implements IService{
             liveGame.setPoints2(liveGame.getPoints2()+points);
         }
         String commentText="";
-        //Message message;
         if(points == 1){
             stats.setMadeFt(stats.getMadeFt()+1);
             commentText =" 1 free throw made";
@@ -313,6 +335,20 @@ public class Service implements IService{
         LiveGame newLiveGame = saveLiveGame(liveGame);
         game.setLiveGame(newLiveGame);
         return Arrays.asList(game, newStats, commentText);
+    }
+
+    public Message composeComment(int idGame, String time, String commentText, Message message, Stats newStats) {
+        Game game = findGameByIdGame(idGame);
+        Comments comments = new Comments(
+                "#"+newStats.getPlayer().getNumber()+
+                        " "+newStats.getPlayer().getName()+
+                        commentText,
+                idGame,game.getLiveGame().getQuater(),time,
+                game.getLiveGame().getPoints1()+"-"+ game.getLiveGame().getPoints2(), newStats.getPlayer().getIdTeam());
+        Comments savedComment = saveComments(comments);
+        message.setComment(savedComment);
+        message.setObject(newStats);
+        return message;
     }
 
 }
